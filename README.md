@@ -4,7 +4,7 @@ A ready-to-use scaffold that demonstrates how to build a verifiable AI agent usi
 
 - **Opacity** for verifiable AI inference (zkTLS proofs)
 - **EigenDA** for data availability logging
-- **Witnesschain** for creating a campaign, getting photos from a campaign, and classification of photos from a campaign.
+- **Witnesschain** for actuating and observing the real world through geoverified campaigns.
 
 ## 🚀 Quick Start
 
