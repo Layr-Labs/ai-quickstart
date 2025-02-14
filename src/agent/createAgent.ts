@@ -10,12 +10,6 @@ export interface VerifiableResponse {
   proof: any;
 }
 
-export interface LocationVerification {
-  isValid: boolean;
-  proof: any;
-  photos?: string[];
-}
-
 export class Agent {
   private opacity: OpacityAdapter;
   private eigenDA: EigenDAAdapter;
@@ -92,46 +86,6 @@ export class Agent {
   }
 
   /**
-   * Verify location using Witnesschain and log to EigenDA
-   */
-  async verifyLocation(latitude: number, longitude: number, photos?: string[]): Promise<LocationVerification> {
-    try {
-      // First authenticate with the location
-      const isAuthenticated = await this.witnesschain.authenticate(latitude, longitude);
-      
-      if (!isAuthenticated) {
-        throw new Error('Location authentication failed');
-      }
-
-      // TODO: Photo verification is temporarily disabled
-      // let photoVerification: boolean | null = null;
-      // if (photos && photos.length > 0) {
-      //   const verificationResponse = await this.witnesschain.verifyPhotos(photos, 'Location verification photos');
-      //   photoVerification = verificationResponse !== null;
-      // }
-
-      // Log the verification to EigenDA
-      await this.eigenDA.info('Location Verification', {
-        coordinates: { latitude, longitude },
-        isAuthenticated,
-        // photoVerification
-      });
-
-      return {
-        isValid: isAuthenticated,
-        proof: null, // Witnesschain doesn't return a proof object directly
-        // photos: photos
-      };
-    } catch (error) {
-      await this.eigenDA.error('Location Verification Failed', {
-        coordinates: { latitude, longitude },
-        error,
-      });
-      throw error;
-    }
-  }
-
-  /**
    * Create a new campaign on Witnesschain
    */
   async createCampaign(params: {
@@ -173,8 +127,15 @@ export class Agent {
   /**
    * Get photos from a campaign
    */
-  async getCampaignPhotos(campaign: string, since: string | null) {
+  async getCampaignPhotos(campaign: string, since?: string) {
     return this.witnesschain.getCampaignPhotos(campaign, since);
+  }
+
+  /**
+   * Classify a photo submission
+   */
+  async classifyPhoto(campaignId: string, photoId: string) {
+    return this.witnesschain.classifyPhoto(campaignId,photoId);
   }
 
   /**

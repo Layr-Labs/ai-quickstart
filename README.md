@@ -4,7 +4,7 @@ A ready-to-use scaffold that demonstrates how to build a verifiable AI agent usi
 
 - **Opacity** for verifiable AI inference (zkTLS proofs)
 - **EigenDA** for data availability logging
-- **Witnesschain** for location verification
+- **Witnesschain** for creating a campaign, getting photos from a campaign, and classification of photos from a campaign.
 
 ## 🚀 Quick Start
 
@@ -31,7 +31,7 @@ A ready-to-use scaffold that demonstrates how to build a verifiable AI agent usi
    - Witnesschain: `WITNESSCHAIN_API_KEY`, `WITNESSCHAIN_API_URL`, `WITNESSCHAIN_PRIVATE_KEY`
 
 4. **Run the demo**
-   
+
    CLI Demo:
    ```bash
    npm run build
@@ -64,7 +64,7 @@ eigenai-quickstart/
 
 The CLI demo showcases basic usage of the agent:
 1. Generating verifiable text
-2. Verifying location
+2. Creating campaigns and classifying campaign photos.
 3. Logging information to EigenDA
 
 Run it with:
@@ -83,14 +83,28 @@ The Express server provides the following endpoints:
      -d '{"prompt": "What is the capital of France?"}'
    ```
 
-2. **Verify Location**
+2. **Create Campaign**
    ```bash
-   curl -X POST http://localhost:3000/api/verify-location \
+   curl -X POST http://localhost:3000/api/create-campaign \
      -H "Content-Type: application/json" \
      -d '{"latitude": 48.8566, "longitude": 2.3522}'
    ```
 
-3. **Health Check**
+3. **Get Photos from a campaign**
+   ```bash
+   curl -X POST http://localhost:3000/api/campaign-photos \
+     -H "Content-Type: application/json" \
+     -d '{"campaign": "<campaign-name>", "since" : "<OPTIONAL:datetime-in-iso-format>"}'
+   ```
+
+3. **Classify a Photo from a campaign**
+   ```bash
+   curl -X POST http://localhost:3000/api/classify-photo\
+     -H "Content-Type: application/json" \
+     -d '{"photo": "<photo-id>"}'
+   ```
+
+4. **Health Check**
    ```bash
    curl http://localhost:3000/health
    ```

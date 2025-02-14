@@ -36,7 +36,7 @@ app.post('/api/generate', async (req, res) => {
     }
 
     const { prompt } = req.body;
-    
+
     if (!prompt) {
       return res.status(400).json({ error: 'Prompt is required' });
     }
@@ -47,36 +47,71 @@ app.post('/api/generate', async (req, res) => {
     res.json(result);
   } catch (error) {
     console.error('Error generating text:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Failed to generate text',
       details: error instanceof Error ? error.message : String(error)
     });
   }
 });
 
-// Verify location endpoint
-app.post('/api/verify-location', async (req, res) => {
+// Create campaign endpoint
+app.post('/api/create-campaign', async (req, res) => {
   try {
     if (!agent) {
       return res.status(503).json({ error: 'Agent not ready' });
     }
 
-    const { latitude, longitude } = req.body;
-    
-    if (!latitude || !longitude) {
-      return res.status(400).json({ error: 'Latitude and longitude are required' });
-    }
+    const result = await agent.createCampaign(req.body);
 
-    const result = await agent.verifyLocation(latitude, longitude);
     res.json(result);
   } catch (error) {
-    console.error('Error verifying location:', error);
-    res.status(500).json({ 
-      error: 'Failed to verify location',
+    console.error('Error creating campaign :', error);
+    res.status(500).json({
+      error: 'Failed to create a campaign',
       details: error instanceof Error ? error.message : String(error)
     });
   }
 });
+
+// Get photos of a campaign
+app.post('/api/campaign-photos', async (req, res) => {
+  try {
+    if (!agent) {
+      return res.status(503).json({ error: 'Agent not ready' });
+    }
+
+    const result = await agent.getCampaignPhotos(req.body.campaign);
+
+    res.json(result);
+  } catch (error) {
+    console.error('Error getting photos:', error);
+    res.status(500).json({
+      error: 'Failed to get photos from the campaign',
+      details: error instanceof Error ? error.message : String(error)
+    });
+  }
+});
+
+
+// Classify a photo from a campaign
+app.post('/api/classify-photo', async (req, res) => {
+  try {
+    if (!agent) {
+      return res.status(503).json({ error: 'Agent not ready' });
+    }
+
+    const result = await agent.classifyPhoto(req.body.campaign,req.body.photo);
+
+    res.json(result);
+  } catch (error) {
+    console.error('Error classifying photo:', error);
+    res.status(500).json({
+      error: 'Failed to classify photo',
+      details: error instanceof Error ? error.message : String(error)
+    });
+  }
+});
+
 
 // Start server
 app.listen(port, () => {
@@ -85,4 +120,4 @@ app.listen(port, () => {
   console.log('  GET  /health');
   console.log('  POST /api/generate');
   console.log('  POST /api/verify-location');
-}); 
+});
