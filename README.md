@@ -25,18 +25,15 @@ A ready-to-use scaffold that demonstrates how to build a verifiable AI agent usi
    ```bash
    cp .env.example .env
    ```
+
    Then edit `.env` and fill in your API keys and configuration values:
-   - Opacity: `OPACITY_API_KEY`, `OPACITY_TEAM_ID`, `OPACITY_TEAM_NAME`, `OPACITY_PROVER_URL`
+   - Opacity: `OPENAI_KEY`, `OPACITY_TEAM_ID`, `OPACITY_TEAM_NAME`, `OPACITY_PROVER_URL`
    - EigenDA: `EIGENDA_PRIVATE_KEY`, `EIGENDA_API_URL`, `EIGENDA_BASE_RPC_URL`, `EIGENDA_CREDITS_CONTRACT`
    - Witnesschain: `WITNESSCHAIN_API_KEY`, `WITNESSCHAIN_API_URL`, `WITNESSCHAIN_PRIVATE_KEY`
 
+> be sure to get the address for your private key whitelisted for the address provided for EIGENDA_PRIVATE_KEY.
+
 4. **Run the demo**
-   
-   CLI Demo:
-   ```bash
-   npm run build
-   npm start
-   ```
 
    Express Server:
    ```bash
@@ -59,18 +56,6 @@ eigenai-quickstart/
 ```
 
 ## 🔧 Usage
-
-### CLI Demo
-
-The CLI demo showcases basic usage of the agent:
-1. Generating verifiable text
-2. Verifying location
-3. Logging information to EigenDA
-
-Run it with:
-```bash
-npm start
-```
 
 ### REST API
 
